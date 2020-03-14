@@ -1,0 +1,28 @@
+{% include "header.html"  %}
+
+<h1>
+  <a href="https://yaq.fyi">yaq</a>-python
+</h1>
+
+<hr>
+
+<p>
+The <a href="https://yaq.fyi">yaq project</a> defines a modular and extensible instrument control framework.
+Within this framework, each component of an instrument is driven by a daemon.
+These daemons then speak with one or more client applications to control the instrument.
+</p>
+
+<p>
+This subdomain is dedicated to clients and daemons implemented using <a href="https://python.org">Python</a>.
+Python is an expressive and dynamic language that allows for very rapid development.
+Many yaq daemons and clients are implemented using Python, and Python is an excellent choice for those wishing to develop new daemons or clients to add to the yaq ecosystem.
+Because each daemon and client are separate applications, Python implementations may communicate seamlessly with implementations in any other language.
+</p>
+
+<p>
+For organizational purposes, discussion of client and daemon implementations are separated: <br>
+- <a href="./clients">clients</a> <br>
+- <a href="./daemons">daemons</a>
+</p>
+
+{% include "footer.html" %}
