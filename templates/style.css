@@ -33,3 +33,8 @@ body {
 .tab60 {
   margin-left: 60px;
 }
+
+code {
+  font-family: monospace;
+  background-color: #111314
+}

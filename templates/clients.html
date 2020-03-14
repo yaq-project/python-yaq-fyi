@@ -2,8 +2,82 @@
 
 {% include "title.html" %}
 
+<h2>Installation</h2>
+
 <p>
-  clients
+A generic python yaq client is can be installed via <a href=https://pypi.org/project/yaqc/>PyPI</a>.
+The client program works on Python &ge; 3.6.
 </p>
 
+<pre>
+<code>
+$ pip install yaqc
+</code>
+</pre>
+
+<p>
+You may also install from source:
+</p>
+
+<pre>
+<code>
+$ git clone https://gitlab.com/yaq/yaqc-python
+$ cd yaqc-python
+$ pip install .
+</code>
+</pre>
+
+<h2>Connecting</h2>
+
+<p>
+<code>yaqc</code> provides a generic client which dynamically adds methods to match those provided by the daemon it is connected to.
+To connect to a daemon running locally on port 38000:
+</p>
+
+<pre>
+<code>
+>>> import yaqc
+>>> client = yaqc.Client(38000)
+</code>
+</pre>
+
+
+<p>
+If your daemon is running remotely, simply add the host as a paramter:
+</p>
+
+<pre>
+<code>
+>>> import yaqc
+>>> client = yaqc.Client(38000, host="123.123.123.123")
+</code>
+</pre>
+
+<p>
+<code>client</code> is now a python object which can be used as any other, with all the expected methods.
+For example, if the daemon implements the <code>has-position</code> trait, the object will have methods <code>get_position</code>, <code>set_position</code> and so on.
+</p>
+
+<p>
+The daemon which you are connecting to need not be itself implemented in python, only has to follow the yaq daemon specification.
+</p>
+
+<h2>Using the Client</h2>
+
+<p>
+
+</p>
+
+<h3>Subclassing</h3>
+
+<p>
+
+</p>
+
+<h2>Links</h2>
+<ul>
+	<li><a href=https://gitlab.com/yaq/yaqc-python>Source Code</a></li>
+	<li><a href=https://gitlab.com/yaq/yaqc-python>Issue Tracker</a></li>
+	<li><a href=https://pypi.org/project/yaqc/>PyPi</a></li>
+</ul>
 {% include "footer.html" %}
