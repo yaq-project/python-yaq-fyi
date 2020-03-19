@@ -65,13 +65,74 @@ The daemon which you are connecting to need not be itself implemented in python,
 <h2>Using the Client</h2>
 
 <p>
-
+Methods are called on the client object, which handles the daemon communication layer transparently:
 </p>
+<pre>
+<code>
+>>> client.id()
+{'name': 'my-test-daemon', 'kind': 'some-daemon-kind', 'make': None, 'model': None, 'serial': None}
+>>> client.list_methods()
+['busy', 'close', 'config_filepath', 'get_config', 'get_state', 'get_traits', 'help', 'id', 'list_methods', 'set_state', 'shutdown']
+
+</code>
+</pre>
+
+Note that the <code>help</code> method will print the help information, not return it:
+<pre>
+<code>
+>>> client.help("get_state")
+get_state() -> Dict[str, Any]
+Return the current daemon state.
+</code>
+</pre>
+
 
 <h3>Subclassing</h3>
 
 <p>
+While the generic client exposes all daemon capabilities, there may be times
+where you wish to add some client side computation (e.g. unit translation, stringing together multiple daemon calls).
+This is allowed, and can be accomplished using subclassing.
+The code which is generates the dynamic functions will not overwrite your own functions (it will also not populate the doc string).
+</p>
 
+<p>
+The following is an example of a subclass which uses the <a href=https://unyt.readthedocs.io/en/stable/>unyt</a> library to provide client side unit conversion:
+</p>
+
+<pre>
+<code>
+import unyt
+import yaqc
+
+class UnitClient(yaqc.Client):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+	# This assumes the `has_position` trait is implemented
+	self._units = self.get_units()
+
+    def set_position(position, units=None):
+        """Set the position to a value in units.
+
+	Parameters
+	----------
+	position: float or unyt.unyt_quantity
+	    The position to set.
+	units: string or unyt.Unit
+	    The units for the number.
+        """
+        if units is not None:
+	   position = unyt.unyt_quantity(position, units)
+	if isinstance(position, unyt.unyt_quantity):
+	   position.convert_to_units(self._units)
+	self.send("set_position", float(position))
+</code>
+</pre>
+
+<p>
+In this example, the <code>set_position</code> method will not be overwritten.
+A similar function could be written for <code>get_position</code>.
 </p>
 
 <h2>Links</h2>
