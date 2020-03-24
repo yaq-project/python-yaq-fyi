@@ -1,9 +1,135 @@
 {% include "header.html"  %}
 
 {% include "title.html" %}
+<h1> Python Implementation of yaq Daemons </h1>
+
+<h2> Installation </h2>
+
+<h2> Writing a daemon </h2>
+
+<h3> Notes on async/await and yaq daemons </h3>
+
+<h4> The <code>_busy</code> attribute </h4>
+
+<h4> The <code>_update_state</code> async function </h4>
+
+<h3> Using yaqd-cookiecutter-python </h3>
+
+<h3> yaqd-core-python base classes </h3
+
+<h3> Implementing <a href=https://yaq.fyi/traits/is-daemon>is-daemon</a> </h3>
+
+<h3> Implementing <a href=https://yaq.fyi/traits/has-position>has-position</a> </h3>
+
+<h3> Implementing <a href=https://yaq.fyi/traits/has-limits>has-limits</a> </h3>
+
+<h3> Implementing <a href=https://yaq.fyi/traits/is-homeable>is-homeable</a> </h3>
+
+<h3> Implementing <a href=https://yaq.fyi/traits/has-turret>has-turret</a> </h3>
+
+<h3> Implementing <a href=https://yaq.fyi/traits/is-sensor>is-sensor</a> </h3>
+
+<h3> Implementing <a href=https://yaq.fyi/traits/uses-serial>uses-serial</a> </h3>
 
 <p>
-  daemons
+The <code>uses-serial</code> trait is not typically going to be a terminal trait. 
+More specific configuration will be provided by traits which depend on it.
+These must also implement the <code>direct_serial_write</code> method.
+See below for more in depth implementation for the cases of uart and i2c.
 </p>
 
+<h3> Implementing <a href=https://yaq.fyi/traits/uses-uart>uses-uart</a> </h3>
+<p>
+UART is the serial communication scheme used for RS-232 and similar protocols.
+UART serial communication is characterized by a baudrate.
+In python, the standard way of communicating with UART devices is the <a href=https://pypi.org/project/pyserial/?>pyserial</a> library.
+We include in the yaqd-core-python implementation a subclass of the pyserial implementation that has some asynchronous functions avialable.
+</p>
+<p>
+A typical <code>uses-uart</code> daemon will look something like:
+</p>
+
+<pre>
+<code>
+__all__ = ["ExampleUsesUart"]
+
+import asyncio
+
+from yaqd_core import Base, aserial
+
+class ExampleUsesUart(Base):
+    _kind = "example-uses-uart"
+    traits = ["uses-uart", "uses-serial"]
+    defaults = {"baud_rate": 9600}  # Check your device for appropriate default
+
+    def __init__(self, name, config, config_filepath):
+        super().__init__(name, config, config_filepath)
+	self._serial_port = aserial.ASerial(config["serial_port"], config["baud_rate"])
+	...
+        # perfom other setup, possibly including reads and writes
+    
+    def close(self):
+        self._serial_port.close()
+
+    def direct_serial_write(self, message):
+        self._busy = True
+        self._serial_port.write(message.encode())
+
+    async def update_state(self):
+        while True:
+	    self._serial_port.write(b"get_status")
+	    line = await self._serial_port.readline()
+	    self._busy = line != b"ready"
+	    if self._busy:
+	        await asyncio.sleep(0.1)
+	    else:
+	        await self._busy_sig.wait()
+</code>
+</pre>
+
+<h3> Implementing <a href=https://yaq.fyi/traits/uses-i2c>uses-i2c</a> </h3>
+
+<p>
+There are many libraries in python that can manage low level i2c communication.
+We have typically used <a href=https://pypi.org/project/smbus/>smbus</a>.
+</p>
+<p>
+A typical <code>uses-i2c</code> daemon will look something like:
+</p>
+<pre>
+<code>
+__all__ = ["ExampleUsesI2c"]
+
+import asyncio
+
+from yaqd_core import Base, aserial
+
+class ExampleUsesI2c(Base):
+    _kind = "example-uses-i2c"
+    traits = ["uses-i2c", "uses-serial"]
+    defaults = {"i2c_addr": 0x60}  # Check your device for appropriate default
+
+    def __init__(self, name, config, config_filepath):
+        super().__init__(name, config, config_filepath)
+	self.address = config["address"]
+	self.bus = smbus.SMBus(1)
+        ...
+        # perfom other setup, possibly including reads and writes
+
+    def direct_serial_write(self, message):
+        self._busy = True
+	for byte in bytes(message, encoding="utf-8"):
+	    self.bus.write_byte(self.address, byte)
+
+    async def update_state(self):
+        while True:
+            self.bus.write_byte(self.address, 0x12)
+            data = self.bus.read_i2c_block_data(self.address, 0x00, 3)
+            self._busy = data == 0x01
+            if self._busy:
+                await asyncio.sleep(0.1)
+            else:
+                await self._busy_sig.wait()
+</code>
+</pre>
 {% include "footer.html" %}
