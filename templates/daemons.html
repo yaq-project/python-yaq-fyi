@@ -45,10 +45,10 @@ class ExampleHasPosition(Hardware):
         super().__init__(name, config, config_filepath)
 	self._units = "mm"
 
-    def _set_position(self, position):
+    def set_position(self, position):
         # The super class handles exposing set_position externally,
 	# as well as setting `_busy`, and keeping track of the destination
-	...
+	super().set_position(position)
 	# Actually communicate with your device here
 	self.device.set_position(position)
 
@@ -240,6 +240,7 @@ class ExampleUsesUart(Base):
         # perfom other setup, possibly including reads and writes
 
     def close(self):
+        super().close()
         self._serial_port.close()
 
     def direct_serial_write(self, message):
