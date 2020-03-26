@@ -13,25 +13,88 @@
 
 <h3> Notes on async/await and yaq daemons </h3>
 
-<h4> The <code>_busy</code> attribute </h4>
+<h4> The <code>_busy</code> property </h4>
 
-<h4> The <code>_update_state</code> async function </h4>
+<h4> The <code>update_state</code> async function </h4>
 
 <h3> Using yaqd-cookiecutter-python </h3>
 
 <h3> yaqd-core-python base classes </h3>
 
 <h3> Implementing <a href=https://yaq.fyi/traits/is-daemon>is-daemon</a> </h3>
+<p>
+Everything in the <code>is-daemon</code> trait is implemented by the <code>Base</code> daemon class.
+Simply subclassing gives all methods and configuration parsing.
+All you need to do is add the functions/implement the traits unique to your daemon.
+</p>
 
 <h3> Implementing <a href=https://yaq.fyi/traits/has-position>has-position</a> </h3>
 <p>
 The <code>has-position</code> trait defines the <code>Hardware</code> class.
+Implementing this trait usually involves subclassing and writing two functions:
+</p>
+
+<pre>
+<code>
+from yaqd_core import Hardware
+
+class ExampleHasPosition(Hardware):
+    _kind = "example-has-position"
+
+    def __init__(self, name, config, config_filepath):
+        super().__init__(name, config, config_filepath)
+	self._units = "mm"
+
+    def _set_position(self, position):
+        # The super class handles exposing set_position externally,
+	# as well as setting `_busy`, and keeping track of the destination
+	...
+	# Actually communicate with your device here
+	self.device.set_position(position)
+
+    async def update_state(self):
+        # See above for more context on the asynchronous nature of this function
+	# For a `Hardware`, the important things to update include the position
+	# and the busy state.
+	# Each device will have a unique varient of this method, so a simple
+	# example of a device that exposes these in single python calls is shown.
+        while True:
+	    self._position = self.device.get_position()
+	    self._busy = not self.device.is_ready()
+	    if self._busy:
+	        await asyncio.sleep(0.01)
+	    else:
+	        await self._busy_sig.wait()
+</code>
+</pre>
+
+<p>
+Note that <code>_set_position</code> does _not_ wait for the position to be attained.
+The <code>_units</code> attribute can be defined in a number of ways, ranging from only allowing one value, to being user configurable, to being read from the device itself.
+All other parts of this trait are handled by the <code>Hardware</code> class
 </p>
 
 <h3> Implementing <a href=https://yaq.fyi/traits/has-limits>has-limits</a> </h3>
 <p>
 The <code>has-limits</code> trait defines the <code>ContinuousHardware</code> class.
+The class implements all that is needed to be compliant with the trait, and introduces an attribute <code>hw_limits</code>.
+<code>hw_limits</code> is a 2-tuple which can represent programatically defined limits (e.g. firmware limits from the device itself).
+Handling of taking the intersection with user defined configuration limits is handled by the <code>ContinuousHardware</code> class.
+While implementing <code>has-position</code> as above is required as well, here is an example demonstrating new behavior:
 </p>
+
+<pre>
+<code>
+from yaqd_core import ContinuousHardware
+
+class ExampleHasLimits(ContinuousHardware):
+    _kind = "example-has-limits"
+
+    def __init__(self, name, config, config_filepath):
+        super().__init__(name, config, config_filepath)
+	self.hw_limits = (0., 50.)
+</code>
+</pre>
 
 <h3> Implementing <a href=https://yaq.fyi/traits/is-homeable>is-homeable</a> </h3>
 
@@ -63,8 +126,6 @@ class ExampleHomeable(Hardware):
 	...
 	await self._not_busy_sig.wait()
 	self.set_position(self._destination)
-	
-
 </code>
 </pre>
 
@@ -97,7 +158,6 @@ class ExampleTurret(Base): # Often daemons implementing has-turret will be some 
 
     def get_turret(self):
         return self._turret
-
 </code>
 </pre>
 
@@ -178,7 +238,7 @@ class ExampleUsesUart(Base):
 	self._serial_port = aserial.ASerial(config["serial_port"], config["baud_rate"])
 	...
         # perfom other setup, possibly including reads and writes
-    
+
     def close(self):
         self._serial_port.close()
 
@@ -189,7 +249,7 @@ class ExampleUsesUart(Base):
     async def update_state(self):
         while True:
 	    self._serial_port.write(b"get_status")
-	    line = await self._serial_port.readline()
+	    line = await self._serial_port.areadline()
 	    self._busy = line != b"ready"
 	    if self._busy:
 	        await asyncio.sleep(0.1)
@@ -213,7 +273,7 @@ __all__ = ["ExampleUsesI2c"]
 
 import asyncio
 
-from yaqd_core import Base, aserial
+from yaqd_core import Base
 
 class ExampleUsesI2c(Base):
     _kind = "example-uses-i2c"
