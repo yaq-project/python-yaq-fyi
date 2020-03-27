@@ -5,11 +5,41 @@
 
 <h2> Installation </h2>
 
+
 <h2> Writing a daemon </h2>
 
 <h3> Loading and saving state </h3>
 
 <h3> Logging </h3>
+
+<p>
+The core library provides a wrapper for the standard library <a href=https://docs.python.org/3/library/logging.html>logging</a> library.
+The wrapper ensures consistent log formatting, and introduces additional logging levels (based on <a href=https://www.freedesktop.org/software/systemd/man/sd-daemon.html>sd-daemon(3)</a>:
+</p>
+
+<ul>
+	<li>DEBUG</li>
+	<li>INFO</li>
+	<li>NOTICE</li>
+	<li>WARNING</li>
+	<li>ERROR</li>
+	<li>CRITICAL</li>
+	<li>ALERT</li>
+	<li>EMERGENCY</li>
+</ul>
+
+<p>
+To use the logging system in your daemon, add the following code:
+</p>
+
+<pre>
+<code>
+from yaqd_core import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+</code>
+</pre>
 
 <h3> Notes on async/await and yaq daemons </h3>
 
@@ -20,6 +50,16 @@
 <h3> Using yaqd-cookiecutter-python </h3>
 
 <h3> yaqd-core-python base classes </h3>
+
+<p>
+There are four base classes provided by the core library:
+</p>
+<ul>
+	<li> <code>Base</code>: The base daemon which handles communication and basic daemon behavior (implements <code>is-daemon</code>) </li>
+	<li> <code>Sensor</code>: The daemon which handles scheduling and processing measurements (implements <code>is-sensor</code>) </li>
+	<li> <code>Hardware</code>: The daemon which handles retrieving and setting a single, united, position value (implements <code>has-position</code>) </li>
+	<li> <code>ContinuousHardware</code>: The <code>Hardware</code> subclass which handles limit behavior characteristic of hardware which has a continuous domain (implements <code>has-limits</code>) </li>
+</ul
 
 <h3> Implementing <a href=https://yaq.fyi/traits/is-daemon>is-daemon</a> </h3>
 <p>
@@ -69,7 +109,7 @@ class ExampleHasPosition(Hardware):
 </pre>
 
 <p>
-Note that <code>_set_position</code> does _not_ wait for the position to be attained.
+Note that <code>_set_position</code> does <em>not</em>_ wait for the position to be attained.
 The <code>_units</code> attribute can be defined in a number of ways, ranging from only allowing one value, to being user configurable, to being read from the device itself.
 All other parts of this trait are handled by the <code>Hardware</code> class
 </p>
