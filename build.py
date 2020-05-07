@@ -23,7 +23,7 @@ with open(p, 'w') as fh:
 
 # pages without arguments -------------------------------------------------------------------------
 
-names = ["clients", "daemons"]
+names = ["clients", "daemons", "windows-quickstart"]
 
 for name in names:
 
