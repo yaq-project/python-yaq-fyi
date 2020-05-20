@@ -20,13 +20,11 @@ Because each daemon and client are separate applications, Python implementations
 </p>
 
 <p>
-For organizational purposes, discussion of client and daemon implementations are separated: <br>
-- <a href="./clients">clients</a> <br>
-- <a href="./daemons">daemons</a>
+{% for post in posts %}
+<a href="./{{ post.id }}">{{ post.title }}</a>
+<br>
+{% endfor %}
 </p>
 
-<p>
-You may also be interested in our <a href="./windows-quickstart/">windows quickstart guide</a>.
-</p>
 
 {% include "footer.html" %}
