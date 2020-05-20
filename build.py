@@ -1,43 +1,67 @@
 #!/usr/bin/env python3
 
-import os
-import pathlib
-from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
+from dataclasses import dataclass
+import pathlib
+
+import jinja2
+import markdown
 
 __here__ = pathlib.Path(__file__).resolve().parent
 
-env = Environment(loader = FileSystemLoader(str(__here__ / "templates")))
+env = jinja2.Environment(loader=jinja2.FileSystemLoader(str(__here__ / "templates")))
 
-if not os.path.isdir(__here__ / "public"):
-    os.mkdir(__here__ / "public")
+(__here__ / "public").mkdir(exist_ok=True)
 
-date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# index -------------------------------------------------------------------------------------------
+extension_configs = {"toc": {"permalink": " ¶"}}
+md = markdown.Markdown(
+    extensions=["meta", "toc", "extra"], extension_configs=extension_configs
+)
+
+
+@dataclass
+class Post:
+    id: str
+    title: str
+    content: str
+
+
+posts = []
+for post in (__here__ / "posts").iterdir():
+    with open(post, "r") as f:
+        s = f.read()
+        content = md.convert(s)
+        kwargs = {
+            "id": md.Meta["id"][0],
+            "title": md.Meta["title"][0],
+            "content": content,
+        }
+        posts.append(Post(**kwargs))
+
+posts.sort(key=lambda y: y.title.lower())
 
 p = __here__ / "public" / "index.html"
-template = env.get_template('index.html')
-with open(p, 'w') as fh:
-    fh.write(template.render(title="yaq", date=date))
+template = env.get_template("index.html")
+with open(p, "w") as fh:
+    fh.write(template.render(posts=posts, date=date))
 
-# pages without arguments -------------------------------------------------------------------------
 
-names = ["clients", "daemons", "windows-quickstart"]
+template = env.get_template("post.html")
+for post in posts:
+    (__here__ / "public" / post.id).mkdir(exist_ok=True)
 
-for name in names:
-
-    if not os.path.isdir(__here__ / "public" / name):
-        os.mkdir(__here__ / "public" / name)
-
-    p = __here__ / "public" / name / "index.html"
-    template = env.get_template(name + '.html')
-    with open(p, 'w') as fh:
-        fh.write(template.render(title=name, date=date))
+    with open(__here__ / "public" / post.id / "index.html", "w") as f:
+        f.write(template.render(post=post, title=post.title, date=date))
 
 # css ---------------------------------------------------------------------------------------------
 
-for d, _, _ in os.walk(__here__ / "public", topdown=False):
-    template = env.get_template('style.css')
-    with open(os.path.join(d, "style.css"), 'w') as fh:
+template = env.get_template("style.css")
+with open(__here__ / "public" / "style.css", "w") as fh:
+    fh.write(template.render())
+for d in (__here__ / "public").iterdir():
+    if not d.is_dir():
+        continue
+    with open(d / "style.css", "w") as fh:
         fh.write(template.render())
