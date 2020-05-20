@@ -7,6 +7,7 @@ stages:
 before_script:
   - python -V
   - pip install jinja2 -U
+  - pip install markdown -U
 
 pages:
   stage: deploy
