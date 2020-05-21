@@ -27,15 +27,15 @@ class ExampleUsesI2c(Base):
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
-	self.address = config["i2c_addr"]
-	self.bus = smbus.SMBus(1)
+        self.address = config["i2c_addr"]
+        self.bus = smbus.SMBus(1)
         ...
         # perfom other setup, possibly including reads and writes
 
     def direct_serial_write(self, message):
         self._busy = True
-	for byte in bytes(message, encoding="utf-8"):
-	    self.bus.write_byte(self.address, byte)
+        for byte in bytes(message, encoding="utf-8"):
+            self.bus.write_byte(self.address, byte)
 
     async def update_state(self):
         while True:

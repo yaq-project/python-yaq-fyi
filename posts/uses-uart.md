@@ -30,8 +30,8 @@ class ExampleUsesUart(Base):
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
-	self._serial_port = aserial.ASerial(config["serial_port"], config["baud_rate"])
-	...
+        self._serial_port = aserial.ASerial(config["serial_port"], config["baud_rate"])
+        ...
         # perfom other setup, possibly including reads and writes
 
     def close(self):
@@ -43,11 +43,11 @@ class ExampleUsesUart(Base):
 
     async def update_state(self):
         while True:
-	    self._serial_port.write(b"get_status")
-	    line = await self._serial_port.areadline()
-	    self._busy = line != b"ready"
-	    if self._busy:
-	        await asyncio.sleep(0.1)
-	    else:
-	        await self._busy_sig.wait()
+            self._serial_port.write(b"get_status")
+            line = await self._serial_port.areadline()
+            self._busy = line != b"ready"
+            if self._busy:
+                await asyncio.sleep(0.1)
+            else:
+                await self._busy_sig.wait()
 ```
