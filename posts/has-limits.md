@@ -22,5 +22,5 @@ class ExampleHasLimits(ContinuousHardware):
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
-        self.hw_limits = (0., 50.)
+        self._hw_limits = (0., 50.)
 ```
