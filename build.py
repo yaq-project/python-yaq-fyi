@@ -3,6 +3,7 @@
 from datetime import datetime
 from dataclasses import dataclass
 import pathlib
+import shutil
 
 import jinja2
 import markdown
@@ -65,3 +66,7 @@ for d in (__here__ / "public").iterdir():
         continue
     with open(d / "style.css", "w") as fh:
         fh.write(template.render())
+
+# Scipy 2020 reveal.js presentation
+
+shutil.copytree(__here__ / "scipy-2020", __here__ / "public" / "scipy-2020", dirs_exist_ok=True)
