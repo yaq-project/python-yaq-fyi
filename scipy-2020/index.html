@@ -1,40 +1,82 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+<link rel="stylesheet" href="dist/reset.css">
+<link rel="stylesheet" href="dist/reveal.css">
+<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+<link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>yaq</section>
-				<section>scipy 2020</section>
-			</div>
-		</div>
+<!-- Theme used for syntax highlighted code -->
+<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section><h2>yaq: yet another aqcuisition</h2>
+<br/>
+Scipy 2020
+<br/>
+Kyle Sunden, Blaise Thompson, John Wright
+</section>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+<section>
+        <!-- Problem statement --> 
+        <ul>
+                <li> Communicating with hardware is hard </li>          
+                <li> Many Manufacturers </li>
+        </ul>
+</section>
+<section>
+<h3> The yaq approach </h3>
+<!-- yaq as a solution --> 
+</section>
+<section>
+<!-- demo --> 
+<h3> Installation </h3>
+<img src="./assets/demo.svg"/>
+</section>
+<section>
+<!-- demo --> 
+<h3> Consume via client </h3>
+<img src="./assets/demo.svg"/>
+</section>
+<section>
+<h3> yaqd enable </h3>
+<img src="./assets/demo.svg"/>
+</section>
+<section>
+	<h3> Highlights </h3>
+<!-- Highlight misc adv --> 
+</section>
+<section>
+	<h3> Traits </h3>
+<!-- Traits --> 
+</section>
+<section>
+	<h3> Links </h3>
+<!-- Linky links --> 
+</section>
+</div>
+</div>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+// More info about initialization & config:
+// - https://revealjs.com/initialization/
+// - https://revealjs.com/config/
+Reveal.initialize({
+   hash: true,
+   plugins: [ RevealMarkdown, RevealHighlight ]
+});
+</script>
+<script src="./asciinema-player.js"></script>
+</body>
 </html>
