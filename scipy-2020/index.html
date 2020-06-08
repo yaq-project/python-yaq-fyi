@@ -21,56 +21,142 @@
 <div class="reveal">
 <div class="slides">
 
-<section><h2>yaq: yet another aqcuisition</h2>
+<section data-background-image="./assets/IMG_20170627_140113.jpg" data-background-opacity=0.2>
+<h2>yaq</h2>
 <br/>
-Scipy 2020
+SciPy 2020
 <br/>
-Kyle Sunden, Blaise Thompson, John Wright
+<br/>
+<br/>
+Kyle Sunden* <br>
+Blaise Thompson <br>
+John Wright
+</section>
+
+<section><h2>yaq</h2>
+<p>
+"yet another acquisition"
+</p>
+<br>
+<p>
+an instrument control framework:
+</p>
+<ul>
+  <li>modular</li>
+  <li>extensible</li>
+</ul>
 </section>
 
 <section>
-        <!-- Problem statement -->
-        <ul>
-                <li> Communicating with hardware is hard </li>
-                <li> Many Manufacturers </li>
-        </ul>
+<h3>typical instrument</h3>
+<img src="./assets/instrument.png"/>
 </section>
 
 <section>
-<h3> The yaq approach </h3>
-<!-- yaq as a solution -->
+<h3>the yaq approach</h3>
+<img src="./assets/daemons.png"/>
 </section>
 
 <section>
 <!-- demo -->
-<h3> Installation </h3>
+
+<section data-background-image="./assets/IMG_20191002_181232.jpg" data-background-opacity=0.2>
+<h3>demo</h3>
+⬇️
+</section>
+
+<section>
+<h3>installation</h3>
 <img src="./assets/demo.svg"/>
 </section>
 
 <section>
-<!-- demo -->
-<h3> Consume via client </h3>
+<h3>client</h3>
 <img src="./assets/demo.svg"/>
 </section>
 
 <section>
-<h3> yaqd enable </h3>
+<h3>running in background</h3>
 <img src="./assets/demo.svg"/>
 </section>
 
-<section>
-	<h3> Highlights </h3>
-<!-- Highlight misc adv -->
 </section>
 
 <section>
-	<h3> Traits </h3>
-<!-- Traits -->
+<h3>portability</h3>
+<ul>
+  <li>reusable daemons</li>
+  <li>benefit from ecosystem</li>
+  <li>use just what you need</li>
+  <li>multilingual</li>
+</ul>
 </section>
 
 <section>
-	<h3> Links </h3>
-<!-- Linky links -->
+
+<section>
+<h3>traits</h3>
+enforce consistency across interfaces... <br>
+...where possible
+<br>
+<br>
+<a href="https://yaq.fyi/traits/">https://yaq.fyi/traits/</a>
+</section>
+
+<section>
+<h3>traits</h3>
+<div style="float: left;">
+has-position<br>
+<ul>
+  <li>lightcon-topas4-motor</li>
+  <li>micro-hr</li>
+  <li>ne1000</li>
+  <li>newport-smc100</li>
+</ul>
+</div>
+<div style="float: right;">
+is-sensor<br>
+<ul>
+  <li>ads1115</li>
+  <li>mcp3428</li>
+  <li>seabreeze</li>
+  <li>system-monitor</li>
+</ul>
+</div>
+</section>
+
+<section>
+<h3>has-position</h3>
+<ul>
+  <li>get_position</li>
+  <li>set_position</li>
+  <li>get_units</li>
+  <li>get_destination</li>
+  <li>set_relative</li>
+</ul>
+</section>
+
+<section>
+<h3>is-sensor</h3>
+<ul>
+  <li>measure</li>
+  <li>get_measured</li>
+  <li>get_channel_names</li>
+  <li>get_channel_shapes</li>
+  <li>get_channel_units</li>
+</ul>
+</section>
+
+</section>
+
+<section data-background-image="./assets/IMG_20200310_155848.jpg" data-background-opacity=0.2>
+<h3>thanks!</h3>
+check out these links to learn more:
+<ul>
+  <li><a href="https://yaq.fyi">main documentation</a></li>
+  <li><a href="https://python.yaq.fyi">python documentation</a></li>
+  <li><a href="https://gitlab.com/yaq">source code</a></li>
+</ul>
 </section>
 
 </div>
