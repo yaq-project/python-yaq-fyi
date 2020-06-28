@@ -58,7 +58,7 @@ This is a  major, breaking change to yaq daemons.
 ### has-turret daemons
 - turret tracking  now `self._state["turret"]`
 
-### uses-i2c:
+### uses-serial:
 - `direct_serial_write` now explicitly will get bytes, not string
 
 ## Repository and packaging changes
@@ -68,7 +68,7 @@ This is a  major, breaking change to yaq daemons.
   - Add to [tool.flit.metadata] in pyproject.toml:
     - Check info already present
     - requires-python = ">=3.7"
-    - requires = ["yaqd-core>=2020.06.3", \<other deps>]
+    - requires = ["yaqd-core>=2020.06.3", ...]
     - classifiers (copy from setup.py, include license classifier
     - description-file="README.md"
   - Add [tool.flit.metadata.requires-extra]
@@ -77,8 +77,11 @@ This is a  major, breaking change to yaq daemons.
   - Add [tool.flit.scripts]
     - equiv to `console_scripts` in setup.py
     - can be directly copied, quote moved to after `=` for toml
-    - `yaqd-<kind> = "<module>:<Class>.main"
+    - `yaqd-<kind> = "<module>:<Class>.main"`
   - Use `pip install .` (without `-e`)
+  - Use `flit publish` to deploy
+    - Update `TWINE_*` environment variables to `FLIT_*`
+
 - Add `yaq-traits check` test unit
   - make sure to install `yaq-traits`
   - One call per avpr
