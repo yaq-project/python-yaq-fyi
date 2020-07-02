@@ -5,8 +5,8 @@ title: Implementing the `has-position` trait
 
 The [`has-position`](https://yaq.fyi/traits/has-position) trait is formally defined by [YEP-301](https://yeps.yaq.fyi/301).
 
-The `has-position` trait defines the `Hardware` class. Implementing this
-trait usually involves subclassing and writing two functions:
+The `has-position` trait defines the `Hardware` class.
+Implementing this trait usually involves subclassing and writing two functions:
 
 ```
 from yaqd_core import Hardware
@@ -31,7 +31,7 @@ class ExampleHasPosition(Hardware):
         # Each device will have a unique varient of this method, so a simple
         # example of a device that exposes these in single python calls is shown.
         while True:
-            self._position = self.device.get_position()
+            self._state["position"] = self.device.get_position()
             self._busy = not self.device.is_ready()
             if self._busy:
                 await asyncio.sleep(0.01)

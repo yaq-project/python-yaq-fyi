@@ -23,16 +23,16 @@ This is a  major, breaking change to yaq daemons.
 
 ### messages:
 - request: list of avro type definitions of parameters. May include default values.
-  - May be omitted if there are no parameters
+	- May be omitted if there are no parameters
 - response: single type definition
-  - May be omitted if the return value is `null`
+	- May be omitted if the return value is `null`
 
 ### Notes:
 - anywhere where you wish to put an explict default null value, use the TOML string `"__null__"`
-  - TOML has no explict null value, but a default of null is different than no default
+	- TOML has no explict null value, but a default of null is different than no default
 - Most types are fairly simple to represent in toml format, however ndarrays can be complicated to integrate well. We plan to make this easier in the future.
 - Once you have the TOML, use `yaq-traits compose <toml file>` to generate the `avpr` file
-  - Both files must be placed in the same directory as the python file, named `<kind>.[toml|avpr]`
+	- Both files must be placed in the same directory as the python file, named `<kind>.[toml|avpr]`
 
 ## Code changes to the daemons
 
@@ -47,7 +47,7 @@ This is a  major, breaking change to yaq daemons.
 
 ### has-position daemons:
 - `self._position` now `self._state["position"]`
-- `self._destination now` `self._state["destination"]`
+- `self._destination` now `self._state["destination"]`
 
 ### has-limits daemons
 - `self._hw_limits` now `self._state["hw_limits"]`
@@ -63,26 +63,26 @@ This is a  major, breaking change to yaq daemons.
 
 ## Repository and packaging changes
 - Use flit instead of setup tools
-  - New `__version__.py` which does not report a branch when head is detached
-  - `flit init` (copy contents from existing pyproject.toml, delete file and run `flit init`, past contents)
-  - Add to [tool.flit.metadata] in pyproject.toml:
-    - Check info already present
-    - requires-python = ">=3.7"
-    - requires = ["yaqd-core>=2020.06.3", ...]
-    - classifiers (copy from setup.py, include license classifier
-    - description-file="README.md"
-  - Add [tool.flit.metadata.requires-extra]
-    - dev=["black", "pre-commit"] 
-    - any other extras-require from setup.py
-  - Add [tool.flit.scripts]
-    - equiv to `console_scripts` in setup.py
-    - can be directly copied, quote moved to after `=` for toml
-    - `yaqd-<kind> = "<module>:<Class>.main"`
-  - Use `pip install .` (without `-e`)
-  - Use `flit publish` to deploy
-    - Update `TWINE_*` environment variables to `FLIT_*`
+	- New `__version__.py` which does not report a branch when head is detached
+	- `flit init` (copy contents from existing pyproject.toml, delete file and run `flit init`, past contents)
+	- Add to [tool.flit.metadata] in pyproject.toml:
+		- Check info already present
+		- requires-python = ">=3.7"
+		- requires = ["yaqd-core>=2020.06.3", ...]
+		- classifiers (copy from setup.py, include license classifier
+		- description-file="README.md"
+	- Add [tool.flit.metadata.requires-extra]
+		- dev=["black", "pre-commit"] 
+		- any other extras-require from setup.py
+	- Add [tool.flit.scripts]
+		- equiv to `console_scripts` in setup.py
+		- can be directly copied, quote moved to after `=` for toml
+		- `yaqd-<kind> = "<module>:<Class>.main"`
+	- Use `pip install .` (without `-e`)
+	- Use `flit publish` to deploy
+		- Update `TWINE_*` environment variables to `FLIT_*`
 
 - Add `yaq-traits check` test unit
-  - make sure to install `yaq-traits`
-  - One call per avpr
+	- make sure to install `yaq-traits`
+	- One call per avpr
 

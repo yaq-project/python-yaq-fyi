@@ -25,8 +25,6 @@ from yaqd_core import Base, aserial
 
 class ExampleUsesUart(Base):
     _kind = "example-uses-uart"
-    traits = ["uses-uart", "uses-serial"]
-    defaults = {"baud_rate": 9600}  # Check your device for appropriate default
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
@@ -37,9 +35,9 @@ class ExampleUsesUart(Base):
     def close(self):
         self._serial_port.close()
 
-    def direct_serial_write(self, message):
+    def direct_serial_write(self, message: bytes):
         self._busy = True
-        self._serial_port.write(message.encode())
+        self._serial_port.write(message)
 
     async def update_state(self):
         while True:
@@ -51,3 +49,6 @@ class ExampleUsesUart(Base):
             else:
                 await self._busy_sig.wait()
 ```
+
+Notes:
+- It is typical for a default baud rate for a particular device to be specified in the protocol.

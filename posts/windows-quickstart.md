@@ -25,9 +25,9 @@ commands:
 
 
     > conda config --add channels conda-forge
-    > conda install yaqd-core yaqc
+    > conda install yaqd-core yaqc yaqd-fakes yaqd-control
 
-This will install yaqc-python and yaqd-core-python into your conda
+This will install yaqc-python, yaqd-core-python, yaq-fakes, and yaqd-control into your conda
 environment.
 
 starting a test daemon
@@ -36,35 +36,24 @@ starting a test daemon
 The yaqd-core-python package (which you just installed) exposes the
 following \"abstract\" daemons:
 
--   [yaqd-hardware](https://yaq.fyi/daemons/hardware/)
--   [yaqd-continuous-hardware](https://yaq.fyi/daemons/continuous-hardware/)
+-   [yaqd-fake-discrete-hardware](https://yaq.fyi/daemons/hardware/)
+-   [yaqd-fake-continuous-hardware](https://yaq.fyi/daemons/continuous-hardware/)
 
 These are useful for testing purposes. We are going to be running a
-yaqd-continuous-hardware daemon for testing purposes.
+yaqd-fake-continuous-hardware daemon for testing purposes.
 
 The quickest and easiest way to run daemons is via the console script
 entry point. These allow us to run a specific python function straight
-from the Anaconda Prompt. Try typing `yaqd-continuous-hardware` into the
+from the Anaconda Prompt. Try typing `yaqd-fake-continuous-hardware` into the
 Anaconda Prompt. You will see that our daemon tries to run, but there is
 a `FileNotFoundError`. We need to create a config file for our daemon
 (see [YEP-102](https://yeps.yaq.fyi/102/)).
 
-The config file needs to have a very specific filepath, which is printed
-by the `FileNotFoundError` that we saw before. You will need to create
-some folders in the AppData folder, which is hidden by default. You can
-create this file in any way you choose, but we recommend simply using
-Anaconda Prompt to create the file.
+The config file needs to have a very specific filepath, which the `yaqd` progroam
+(from yaqd-control) helps to automatically make
 
 
-    > cd AppData
-    > cd Local
-    > mkdir yaq
-    > cd yaq
-    > mkdir yaqd
-    > cd yaqd
-    > mkdir continuous-hardware
-    > cd continuous-hardware
-    > notepad config.toml
+    > yaqd edit-config fake-continuous-hardware
 
 This will allow you to create a file named \"config.toml\" in the
 correct folder. This file should contain exactly the following:
@@ -74,7 +63,7 @@ correct folder. This file should contain exactly the following:
     port = 38000
 
 Now that your config file has been created, type
-`yaqd-continuous-hardware` into Anaconda Prompt again. This time, rather
+`yaqd-fake-continuous-hardware` into Anaconda Prompt again. This time, rather
 than raising an error and returning you to Anaconda Prompt, the daemon
 will print some helpful INFO statements and continue to run. We should
 leave this prompt open so that the daemon can run while we play with
@@ -91,9 +80,9 @@ typing `python`. In the Python REPL, try the following:
     >>> import yaqc
     >>> client = yaqc.Client(38000)
     >>> client.id()
-    {'name': 'test', 'kind': 'continuous-hardware', 'make': None, 'model': None,
-    'serial': None}
-    >>> client.get_traits()
+    {'name': 'test', 'kind': 'fake-continuous-hardware', 'make': None,
+    'model': None, 'serial': None}
+    >>> client.traits
     ['is-daemon', 'has-limits', 'has-position']
     >>> client.set_position(5)
     >>> client.get_position()
@@ -102,5 +91,5 @@ typing `python`. In the Python REPL, try the following:
 Try experimenting by opening a second client (third Anaconda Prompt).
 
 You have successfully installed yaq-python and interacted with some
-basic abstract daemons. Now you have the skills you need to begin
+basic fake daemons. Now you have the skills you need to begin
 developing daemons or clients of your own design.

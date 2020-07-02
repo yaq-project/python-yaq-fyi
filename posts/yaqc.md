@@ -15,6 +15,10 @@ Python ≥ 3.6.
 
     $ pip install yaqc
 
+Or installed via conda:
+
+    conda install -c conda-forge yaqc
+
 You may also install from source:
 
 
@@ -56,16 +60,7 @@ communication layer transparently:
 
     >>> client.id()
     {'name': 'my-test-daemon', 'kind': 'some-daemon-kind', 'make': None, 'model': None, 'serial': None}
-    >>> client.list_methods()
-    ['busy', 'close', 'get_config', 'get_config_filepath', 'get_state', 'get_traits', 'help', 'id', 'list_methods', 'set_state', 'shutdown']
 
-Note that the `help` method will print the help information, not return
-it:
-
-
-    >>> client.help("get_state")
-    get_state() -> Dict[str, Any]
-    Return the current daemon state.
 
 ### Subclassing
 
@@ -80,32 +75,33 @@ The following is an example of a subclass which uses the
 [unyt](https://unyt.readthedocs.io/en/stable/) library to provide client
 side unit conversion:
 
+```
+import unyt
+import yaqc
 
-    import unyt
-    import yaqc
+class UnitClient(yaqc.Client):
 
-    class UnitClient(yaqc.Client):
-        
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         # This assumes the `has_position` trait is implemented
         self._units = self.get_units()
 
-        def set_position(position, units=None):
-            """Set the position to a value in units.
-
+    def set_position(self, position, units=None):
+        """Set the position to a value in units.
+    
         Parameters
         ----------
         position: float or unyt.unyt_quantity
-            The position to set.
+	    The position to set.
         units: string or unyt.Unit
-            The units for the number.
-            """
-            if units is not None:
+	    The units for the number.
+        """
+        if units is not None:
            position = unyt.unyt_quantity(position, units)
         if isinstance(position, unyt.unyt_quantity):
            position.convert_to_units(self._units)
-        self.send("set_position", float(position))
+        return self.send("set_position", float(position))
+```
 
 In this example, the `set_position` method will not be overwritten. A
 similar function could be written for `get_position`.

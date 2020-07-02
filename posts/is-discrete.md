@@ -17,6 +17,9 @@ class ExampleHasPosition(Hardware):
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
+	# Gets read from config, but you can define it programattically as well
+	# Generally defining programmatically should be done only if reading
+	# directly from a device (rather than a static mapping).
         self._position_identifiers = {
                 "red": 667,
                 "orange": 613,
@@ -33,13 +36,13 @@ class ExampleHasPosition(Hardware):
         self.device.set_position(position)
 
     async def update_state(self):
-        # you must update _position and _position_identifier
+        # you must update position and position_identifier
         # it's up to you exactly how that works for your hardware
-        # remember that _position_identifier can be none
-        # typically, _position remains numeric although it can be nan
+        # remember that position_identifier can be None
+        # typically, position remains numeric although it can be nan
         while True:
-            self._position = self.device.get_position()
-            self._position_identifier = convert(self._position)
+            self._state["position"] = self.device.get_position()
+            self._state["position_identifier"] = convert(self._position)
             self._busy = not self.device.is_ready()
             if self._busy:
                 await asyncio.sleep(0.01)

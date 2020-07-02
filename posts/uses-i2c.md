@@ -22,8 +22,6 @@ from yaqd_core import Base
 
 class ExampleUsesI2c(Base):
     _kind = "example-uses-i2c"
-    traits = ["uses-i2c", "uses-serial"]
-    defaults = {"i2c_addr": 0x60}  # Check your device for appropriate default
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
@@ -32,9 +30,9 @@ class ExampleUsesI2c(Base):
         ...
         # perfom other setup, possibly including reads and writes
 
-    def direct_serial_write(self, message):
+    def direct_serial_write(self, message: bytes):
         self._busy = True
-        for byte in bytes(message, encoding="utf-8"):
+        for byte in message:
             self.bus.write_byte(self.address, byte)
 
     async def update_state(self):
@@ -47,3 +45,7 @@ class ExampleUsesI2c(Base):
             else:
                 await self._busy_sig.wait()
 ```
+
+Notes:
+- It is common for a default device number to make sense, this is specified in the protocol.
+

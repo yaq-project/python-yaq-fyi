@@ -16,20 +16,23 @@ from yaqd_core import Hardware
 
 class ExampleHomeable(Hardware):
     _kind = "example_homeable"
-    traits = ["is-homeable"]
 
     def home(self):
         # Since homing is typically a long process, start a new asynchronous task
         # This may not be necessary, depending on how your device behaves,
         # but remember that home is defined as returning to the current destination
         # This method should return quickly, not wait for the homing to complete.
-        loop = asyncio.get_event_loop()
-        loop.create_task(self._home())
+	self._homed_event = asyncio.Event()
+        self._loop.create_task(self._home())
 
     async def _home(self):
         self._busy = True
         # Initiate the home
         ...
-        await self._not_busy_sig.wait()
+        await self._homed_event.wait()
         self.set_position(self._destination)
+
+    ...
+    # Somewhere in update_state or similar, `self._homed_event.set()` must be called
+    # Usually in response to some indication from the device that it has completed motion
 ```
