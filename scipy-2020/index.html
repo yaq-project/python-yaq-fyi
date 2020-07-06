@@ -88,7 +88,38 @@ an instrument control framework:
 <img src="./assets/control.svg"/>
 <audio src="./assets/control.mp3" controls></audio>
 </section>
+<section>
+<pre><code data-trim>$ pip install yaqd-core yaqd-system-monitor yaqd-control yaqc
+$ yaqd edit-config system-monitor
+$ yaqd-system-monitor
+</code></pre>
+</section>
+<section>
+<pre><code data-trim>import yaqc
+from pprint import pprint
 
+sysmon = yaqc.Client(38202)
+sysmon.traits
+pprint(dir(sysmon))
+help(sysmon.measure)
+help(sysmon.get_measured)
+sysmon.get_channel_names()
+sysmon.get_channel_units()
+sysmon.busy()
+sysmon.measure(loop=True)
+sysmon.get_measured()
+sysmon.get_measured()
+sysmon.get_measured()
+sysmon.get_measured()
+sysmon.busy()
+</code></pre>
+</section>
+<section>
+<pre><code data-trim>$ yaqd enable system-monitor
+$ yaqd start system-monitor
+$ yaqd status
+</code></pre>
+</section>
 </section>
 
 <section>
@@ -190,7 +221,6 @@ check out these links to learn more:
 // - https://revealjs.com/config/
 Reveal.initialize({
    hash: true,
-   plugins: [ RevealMarkdown, RevealHighlight ],
 
 });
 </script>
