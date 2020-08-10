@@ -18,7 +18,7 @@ note that yaq requires Python 3.7 or newer. Download and install
 [Miniconda3](https://docs.conda.io/en/latest/miniconda.html). You\'ll
 want the 64-bit version.
 
-Once installed, you will find that a new application \"Anaconda Prompt\"
+Once installed, you will find that a new application "Anaconda Prompt"
 has been added. This application allows you to interact with your new
 conda environment. Launch Anaconda Prompt and enter the following
 commands:
@@ -34,7 +34,7 @@ starting a test daemon
 ----------------------
 
 The yaqd-core-python package (which you just installed) exposes the
-following \"abstract\" daemons:
+following "abstract" daemons:
 
 -   [yaqd-fake-discrete-hardware](https://yaq.fyi/daemons/hardware/)
 -   [yaqd-fake-continuous-hardware](https://yaq.fyi/daemons/continuous-hardware/)
@@ -55,7 +55,7 @@ The config file needs to have a very specific filepath, which the `yaqd` progroa
 
     > yaqd edit-config fake-continuous-hardware
 
-This will allow you to create a file named \"config.toml\" in the
+This will allow you to create a file named "config.toml" in the
 correct folder. This file should contain exactly the following:
 
 
@@ -84,9 +84,13 @@ typing `python`. In the Python REPL, try the following:
     'model': None, 'serial': None}
     >>> client.traits
     ['is-daemon', 'has-limits', 'has-position']
-    >>> client.set_position(5)
+    >>> client.get_limits()
+    [0, 1]
+    >>> client.set_position(1)
     >>> client.get_position()
-    5
+    1
+
+If you don't get a position of 1, try calling `get_position` again, the daemon takes some time to reach its destination.
 
 Try experimenting by opening a second client (third Anaconda Prompt).
 
