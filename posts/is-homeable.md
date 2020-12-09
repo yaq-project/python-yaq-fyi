@@ -6,15 +6,14 @@ title: Implementing the `is-homeable` trait
 The [`is-homeable`](https://yaq.fyi/traits/is-homeable) trait is formally defined by [YEP-305](https://yeps.yaq.fyi/305).
 
 Homeable hardware have a procedure which resets to a known position.
-Homed devices are then returned to their destination. This trait is
-required to be applied to a `Hardware` (or a subclass like `ContinuousHardware`)
-daemon, and introduces only one additional method:
+Homed devices are then returned to their destination.
+This trait introduces only one additional method, `home`:
 
 
 ```
-from yaqd_core import Hardware
+from yaqd_core import IsHomeable, HasPosition, IsDaemon
 
-class ExampleHomeable(Hardware):
+class ExampleHomeable(IsHomeable, HasPosition, IsDaemon):
     _kind = "example_homeable"
 
     def home(self):

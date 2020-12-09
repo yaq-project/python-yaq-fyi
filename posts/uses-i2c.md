@@ -8,8 +8,7 @@ The [`uses-i2c`](https://yaq.fyi/traits/uses-i2c) trait is formally defined by [
 Implementing `uses-i2c` requires one configuration parameter and implementing
 `direct_serial_write` as defined by `uses-serial`.
 There are many libraries in python that can manage low level i2c
-communication. We have typically used
-[smbus](https://pypi.org/project/smbus/).
+communication. We have typically used [smbus](https://pypi.org/project/smbus/).
 
 A typical `uses-i2c` daemon will look something like:
 
@@ -18,9 +17,9 @@ __all__ = ["ExampleUsesI2c"]
 
 import asyncio
 
-from yaqd_core import Base
+from yaqd_core import UsesI2C, UsesSerial, IsDaemon
 
-class ExampleUsesI2c(Base):
+class ExampleUsesI2c(UsesI2C, UsesSerial, IsDaemon):
     _kind = "example-uses-i2c"
 
     def __init__(self, name, config, config_filepath):
