@@ -11,9 +11,15 @@ storing one state variable:
 
 
 ```
+from yaqd_core import HasTurret, IsDaemon
+
+class ExampleHasTurret(HasTurret, IsDaemon):
+    _kind = "example-has-turret
+
     def set_turret(self, index):
         self._busy = True
         # Perform the actual setting of the turret for your device
+	self.device.set_turret(index)
 	self._state["turret"] = index
 
     def get_turret(self):

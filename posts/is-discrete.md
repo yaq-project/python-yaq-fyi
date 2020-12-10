@@ -5,14 +5,13 @@ title: Implementing the `is-discrete` trait
 
 The [`is-discrete`](https://yaq.fyi/traits/is-discrete) trait is formally defined by [YEP-309](https://yeps.yaq.fyi/309).
 
-The `DiscreteHardware` class provides the `is-discrete`, `has-position`, and `is-daemon` traits.
 Implementation usually involves subclassing and writing two methods.
 It's also necessary to define `_position_identifiers`.
 
 ```
-from yaqd_core import DiscreteHardware
+from yaqd_core import IsDiscrete, HasPosition, IsDaemon
 
-class ExampleHasPosition(Hardware):
+class ExampleHasPosition(IsDiscrete, HasPosition, IsDaemon):
     _kind = "example-has-position"
 
     def __init__(self, name, config, config_filepath):

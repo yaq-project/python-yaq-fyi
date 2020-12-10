@@ -21,9 +21,9 @@ __all__ = ["ExampleUsesUart"]
 
 import asyncio
 
-from yaqd_core import Base, aserial
+from yaqd_core import UsesUART, UsesSerial, IsDaemon, aserial
 
-class ExampleUsesUart(Base):
+class ExampleUsesUart(UsesUART, UsesSerial, IsDaemon):
     _kind = "example-uses-uart"
 
     def __init__(self, name, config, config_filepath):
