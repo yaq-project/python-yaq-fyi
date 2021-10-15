@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>yaq SciPy 2020 Poster</title>
+
+<link rel="stylesheet" href="dist/reset.css">
+<link rel="stylesheet" href="dist/reveal.css">
+<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+<link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
+<style>
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5 {text-transform: none;}
+    .imgbox div { width: auto;}
+    img {max-width: 100%; height: auto}
+    #responsive-img {height: 60vh; width: auto;}
+</style>
+<!-- Theme used for syntax highlighted code -->
+<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section data-background-image="./assets/IMG_20170627_140113.jpg" data-background-opacity=0.2>
+<h2>Bluesky in the Wright Group</h2>
+<br/>
+<br/>
+Kyle Sunden* <br/>
+Blaise Thompson <br/>
+</section>
+
+<section>
+	<!-- about us -->
+	<h2> about us </h2>
+</section>
+
+<section>
+<section><h2>yaq</h2>
+<p>
+"yet another acquisition"
+</p>
+<a href=https://yaq.fyi>yaq.fyi</a>
+<br/>
+<p>
+an instrument hardware control framework:
+</p>
+<ul>
+  <li>modular</li>
+  <li>extensible</li>
+  <li>simple</li>
+  <li>self describing</li>
+</ul>
+<br/>
+<br/>
+<br/>
+</section>
+<section>
+	<h2> yaqc-bluesky </h2>
+	<p> Interface layer for the bluesky device protocol </p>
+	<p> <em> NOT </em> Ophyd based </p>
+	<a href=https://github.com/bluesky/yaqc-bluesky>repo</a>
+</section>
+</section>
+
+
+<section>
+	<!-- wright plans -->
+	<h2> wright plans </h2>
+	<ul>
+		<li> unit awareness </li>
+		<li> constant expressions </li>
+		<li> specialized tuning methods </li>
+	</ul>
+	<br/>
+	<br/>
+	<br/>
+	<a href=https://github.com/wright-group/wright-plans >repo</a>
+</section>
+
+<section>
+<section>
+	<h3> bluesky in a box </h3>
+	<!-- bluesky-in-a-box -->
+	<img id=responsive-img src=./assets/architecture.svg alt="block diagram of docker architecture for bluesky in a box"/>
+</section>
+<section>
+	<p>tiled?</p>
+	<p>kafka instead of zmq-proxy?</p>
+</section>
+<section>
+	<a href=https://github.com/wright-group/bluesky-in-a-box>repo</a>
+</section>
+</section>
+
+<section>
+<section data-background-image="./assets/IMG_20191002_181232.jpg" data-background-opacity=0.2>
+	<h2> gui queueserver client:</h2>
+	<h2>yaqc-cmds </h2>
+</section>
+<section>
+	<h3> queue </h3>
+	<!-- GUI queuesever client -->
+	<img src=./assets/queue.png alt="Queue tab of acquisition gui"/>
+	<!-- queue.png -->
+</section>
+<section>
+	<h3> plot </h3>
+	<img src=./assets/plot.png alt="plot tab of acquisition gui"/>
+</section>
+<section>
+	<a href=https://github.com/wright-group/yaqc-cmds>repo</a>
+</section>
+
+</section>
+
+<section data-background-image="./assets/IMG_20200310_155848.jpg" data-background-opacity=0.2>
+<h3>thanks!</h3>
+check out these links to learn more:
+<ul>
+  <li><a href="https://yaq.fyi">main documentation</a></li>
+  <li><a href="https://python.yaq.fyi">python documentation</a></li>
+  <li><a href="https://gitlab.com/yaq">yaq source code</a></li>
+  <li><a href="https://github.com/wright-group">wright group github</a></li>
+</ul>
+</section>
+
+
+<section>
+	<section><h2>extras</h2></section
+<section>
+<h3>typical instrument</h3>
+<img src="./assets/instrument.png"/>
+</section>
+
+<section>
+<h3>the yaq approach</h3>
+<img src="./assets/daemons.png"/>
+</section>
+
+</section>
+</div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+// More info about initialization & config:
+// - https://revealjs.com/initialization/
+// - https://revealjs.com/config/
+Reveal.initialize({
+   hash: true,
+
+});
+</script>
+</body>
+</html>

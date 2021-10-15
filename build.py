@@ -70,3 +70,4 @@ for d in (__here__ / "public").iterdir():
 # Scipy 2020 reveal.js presentation
 
 shutil.copytree(__here__ / "scipy-2020", __here__ / "public" / "scipy-2020", dirs_exist_ok=True)
+shutil.copytree(__here__ / "bluesky-wright-group", __here__ / "public" / "bluesky-wright-group", dirs_exist_ok=True)
