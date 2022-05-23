@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>yaq SciPy 2020 Poster</title>
+
+<link rel="stylesheet" href="dist/reset.css">
+<link rel="stylesheet" href="dist/reveal.css">
+<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+<link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
+<style>
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5 {text-transform: none;}
+</style>
+<!-- Theme used for syntax highlighted code -->
+<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section data-background-image="./assets/IMG_20170627_140113.jpg" data-background-opacity=0.2>
+<h2>yaq</h2>
+<br/>
+SciPy 2020
+<br/>
+<br/>
+<br/>
+Kyle Sunden* <br/>
+Blaise Thompson <br/>
+John Wright
+</section>
+
+<section><h2>yaq</h2>
+<p>
+"yet another acquisition"
+</p>
+<br/>
+<p>
+an instrument control framework:
+</p>
+<ul>
+  <li>modular</li>
+  <li>extensible</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<audio src="./assets/intro.mp3" controls></audio>
+</section>
+
+<section>
+<h3>typical instrument</h3>
+<audio src="./assets/typical_instrument.mp3" controls></audio>
+<img src="./assets/instrument.png"/>
+</section>
+
+<section>
+<h3>the yaq approach</h3>
+<audio src="./assets/yaq_approch.mp3" controls></audio>
+<img src="./assets/daemons.png"/>
+</section>
+
+<section>
+<!-- demo -->
+
+<section data-background-image="./assets/IMG_20191002_181232.jpg" data-background-opacity=0.2>
+<h3>demo</h3>
+⬇️
+</section>
+
+<section>
+<h3>installation</h3>
+<img src="./assets/installation.svg"/>
+<audio src="./assets/installation.mp3" controls></audio>
+</section>
+
+<section>
+<h3>client</h3>
+<img src="./assets/client.svg"/>
+<audio src="./assets/client.mp3" controls></audio>
+</section>
+
+<section>
+<h3>running in background</h3>
+<img src="./assets/control.svg"/>
+<audio src="./assets/control.mp3" controls></audio>
+</section>
+<section>
+<pre><code data-trim>$ pip install yaqd-core yaqd-system-monitor yaqd-control yaqc
+$ yaqd edit-config system-monitor
+$ yaqd-system-monitor
+</code></pre>
+</section>
+<section>
+<pre><code data-trim>import yaqc
+from pprint import pprint
+
+sysmon = yaqc.Client(38202)
+sysmon.traits
+pprint(dir(sysmon))
+help(sysmon.measure)
+help(sysmon.get_measured)
+sysmon.get_channel_names()
+sysmon.get_channel_units()
+sysmon.busy()
+sysmon.measure(loop=True)
+sysmon.get_measured()
+sysmon.get_measured()
+sysmon.get_measured()
+sysmon.get_measured()
+sysmon.busy()
+</code></pre>
+</section>
+<section>
+<pre><code data-trim>$ yaqd enable system-monitor
+$ yaqd start system-monitor
+$ yaqd status
+</code></pre>
+</section>
+</section>
+
+<section>
+<h3>portability</h3>
+<ul>
+  <li>reusable daemons</li>
+  <li>benefit from ecosystem</li>
+  <li>use just what you need</li>
+  <li>multilingual</li>
+  <li>Simple text configuraton and state</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<audio src="./assets/portability.mp3" controls></audio>
+</section>
+
+<section>
+
+<section>
+<h3>traits</h3>
+enforce consistency across interfaces... <br/>
+...where possible
+<br/>
+<br/>
+<a href="https://yaq.fyi/traits/">https://yaq.fyi/traits/</a>
+<br/>
+<br/>
+<br/>
+<audio src="./assets/traits.mp3" controls></audio>
+</section>
+
+<section>
+<h3>traits</h3>
+<div style="float: left;">
+has-position<br/>
+<ul>
+  <li>lightcon-topas4-motor</li>
+  <li>micro-hr</li>
+  <li>ne1000</li>
+  <li>newport-smc100</li>
+</ul>
+</div>
+<div style="float: right;">
+is-sensor<br/>
+<ul>
+  <li>ads1115</li>
+  <li>mcp3428</li>
+  <li>seabreeze</li>
+  <li>system-monitor</li>
+</ul>
+</div>
+</section>
+
+<section>
+<h3>has-position</h3>
+<ul>
+  <li>get_position</li>
+  <li>set_position</li>
+  <li>get_units</li>
+  <li>get_destination</li>
+  <li>set_relative</li>
+</ul>
+</section>
+
+<section>
+<h3>is-sensor</h3>
+<ul>
+  <li>measure</li>
+  <li>get_measured</li>
+  <li>get_channel_names</li>
+  <li>get_channel_shapes</li>
+  <li>get_channel_units</li>
+</ul>
+</section>
+
+</section>
+
+<section data-background-image="./assets/IMG_20200310_155848.jpg" data-background-opacity=0.2>
+<h3>thanks!</h3>
+check out these links to learn more:
+<ul>
+  <li><a href="https://yaq.fyi">main documentation</a></li>
+  <li><a href="https://python.yaq.fyi">python documentation</a></li>
+  <li><a href="https://gitlab.com/yaq">source code</a></li>
+</ul>
+</section>
+
+</div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+// More info about initialization & config:
+// - https://revealjs.com/initialization/
+// - https://revealjs.com/config/
+Reveal.initialize({
+   hash: true,
+
+});
+</script>
+</body>
+</html>
