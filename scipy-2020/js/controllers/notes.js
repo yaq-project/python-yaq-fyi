@@ -1,5 +1,5 @@
 /**
- * Handles the showing and 
+ * Handles the showing and
  */
 export default class Notes {
 
