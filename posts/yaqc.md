@@ -88,7 +88,7 @@ class UnitClient(yaqc.Client):
 
     def set_position(self, position, units=None):
         """Set the position to a value in units.
-    
+
         Parameters
         ----------
         position: float or unyt.unyt_quantity
